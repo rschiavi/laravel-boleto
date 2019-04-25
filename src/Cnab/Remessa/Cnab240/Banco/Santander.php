@@ -97,6 +97,7 @@ class Santander extends AbstractRemessa implements RemessaContract
      */
     public function addBoleto(BoletoContract $boleto)
     {
+        $boleto->setLayoutCnab('240');
         $this->boletos[] = $boleto;
         $this->segmentoP($boleto);
 
@@ -227,7 +228,7 @@ class Santander extends AbstractRemessa implements RemessaContract
             $this->add(155, 169, Util::formatCnab('9', Util::onlyNumbers($boleto->getSacadorAvalista()->getDocumento()), 15));
             $this->add(170, 209, Util::formatCnab('X', $boleto->getSacadorAvalista()->getNome(), 30));
         }
-        
+
         return $this;
     }
 

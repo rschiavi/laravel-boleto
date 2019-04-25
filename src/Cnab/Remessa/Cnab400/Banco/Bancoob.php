@@ -160,6 +160,7 @@ class Bancoob extends AbstractRemessa implements RemessaContract
      */
     public function addBoleto(BoletoContract $boleto)
     {
+        $boleto->setLayoutCnab('400');
         $this->boletos[] = $boleto;
         $this->iniciaDetalhe();
 

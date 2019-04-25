@@ -113,6 +113,7 @@ class Bnb extends AbstractRemessa implements RemessaContract
      */
     public function addBoleto(BoletoContract $boleto)
     {
+        $boleto->setLayoutCnab('400');
         $this->boletos[] = $boleto;
         $this->iniciaDetalhe();
         $this->add(1, 1, '1');
