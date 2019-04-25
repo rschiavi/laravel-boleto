@@ -642,7 +642,7 @@ abstract class AbstractBoleto implements BoletoContract
      */
     public function setLayoutCnab($layoutCnab)
     {
-        if ($cnab == '240' or $cnab == '400') {
+        if ($layoutCnab == '240' or $layoutCnab == '400') {
             $this->layoutCnab = $layoutCnab;
             return $this;
         }
