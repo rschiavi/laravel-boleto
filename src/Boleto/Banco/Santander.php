@@ -32,17 +32,29 @@ class Santander  extends AbstractBoleto implements BoletoContract
      * @var string
      */
     protected $especiesCodigo = [
-        'DM' => '02',
-        'DS' => '04',
-        'LC' => '07',
-        'NP' => '12',
-        'NR' => '13',
-        'RC' => '17',
-        'AP' => '20',
-        'BCC'=> '31',
-        'BDP'=> '32',
-        'CH' => '97',
-        'ND' => '98'
+        '240' => [
+            'DM'  => '02', // DUPLICATA MERCANTIL
+            'DS'  => '04', // DUPLICATA DE SERVICO
+            'LC'  => '07', // LETRA DE CÂMBIO
+            'NP'  => '12', // NOTA PROMISSORIA
+            'NR'  => '13', // NOTA PROMISSORIA RURAL
+            'RC'  => '17', // RECIBO
+            'AP'  => '20', // APOLICE DE SEGURO
+            'BCC' => '31', // CARTÃO DE CRÉDITO
+            'BDP' => '32', // BOLETO DE PROPOSTA
+            'CH'  => '97', // CHEQUE
+            'ND'  => '98', // NOTA PROMISSORIA DIRETA
+        ],
+        '400' => [
+            'DM'  => '01', // DUPLICATA
+            'NP'  => '02', // NOTA PROMISSÓRIA
+            'AP'  => '03', // APÓLICE / NOTA DE SEGURO
+            'RC'  => '05', // RECIBO
+            'DS'  => '06', // DUPLICATA DE SERVIÇO
+            'LC'  => '07', // LETRA DE CAMBIO
+            'BDP' => '08', // BDP - BOLETO DE PROPOSTA
+            'BCC' => '19', // BCC - BOLETO CARTÃO DE CRÉDITO
+        ]
     ];
     /**
      * Define os nomes das carteiras para exibição no boleto

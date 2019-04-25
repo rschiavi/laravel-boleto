@@ -29,35 +29,54 @@ class Bancoob extends AbstractBoleto implements BoletoContract
      * @var string
      */
     protected $especiesCodigo = [
-        //Equivalentes ao CNAB240
-        'CH'  => '01', //Cheque
-        'DM'  => '02', //Duplicata Mercantil
-        'DMI' => '03', //Duplicata Mercantil p/ Indicação
-        'DS'  => '04', //Duplicata de Serviço
-        'DSI' => '05', //Duplicata de Serviço p/ Indicação
-        'DR'  => '06', //Duplicata Rural
-        'LC'  => '07', //Letra de Câmbio
-        'NCC' => '08', //Nota de Crédito Comercial
-        'NCE' => '09', //Nota de Crédito a Exportação
-        'NCI' => '10', //Nota de Crédito Industrial
-        'NCR' => '11', //Nota de Crédito Rural
-        'NP'  => '12', //Nota Promissória
-        'NPR' => '13', //Nota Promissória Rural
-        'TM'  => '14', //Triplicata Mercantil
-        'TS'  => '15', //Triplicata de Serviço
-        'NS'  => '16', //Nota de Seguro
-        'RC'  => '17', //Recibo
-        'FAT' => '18', //Fatura
-        'ND'  => '19', //Nota de Débito
-        'AP'  => '20', //Apólice de Seguro
-        'ME'  => '21', //Mensalidade Escolar
-        'PC'  => '22', //Parcela de Consórcio
-        'NF'  => '23', //Nota Fiscal
-        'DD'  => '24', //Documento de Dívida
-        'CPR' => '25',  //Cédula de Produto Rural,
-        'O'   => '99',  //Outros,
-        //Equivalente no CNAB400 que não existe no CNAB240
-        'W'   => '100',  //Warrant CNAB400
+        '240' => [
+            'CH'  => '01', // Cheque
+            'DM'  => '02', // Duplicata Mercantil
+            'DMI' => '03', // Duplicata Mercantil p/ Indicação
+            'DS'  => '04', // Duplicata de Serviço
+            'DSI' => '05', // Duplicata de Serviço p/ Indicação
+            'DR'  => '06', // Duplicata Rural
+            'LC'  => '07', // Letra de Câmbio
+            'NCC' => '08', // Nota de Crédito Comercial
+            'NCE' => '09', // Nota de Crédito a Exportação
+            'NCI' => '10', // Nota de Crédito Industrial
+            'NCR' => '11', // Nota de Crédito Rural
+            'NP'  => '12', // Nota Promissória
+            'NPR' => '13', // Nota Promissória Rural
+            'TM'  => '14', // Triplicata Mercantil
+            'TS'  => '15', // Triplicata de Serviço
+            'NS'  => '16', // Nota de Seguro
+            'RC'  => '17', // Recibo
+            'FAT' => '18', // Fatura
+            'ND'  => '19', // Nota de Débito
+            'AP'  => '20', // Apólice de Seguro
+            'ME'  => '21', // Mensalidade Escolar
+            'PC'  => '22', // Parcela de Consórcio
+            'NF'  => '23', // Nota Fiscal
+            'DD'  => '24', // Documento de Dívida
+            'CPR' => '25', // Cédula de Produto Rural
+            'O'   => '99', // Outros
+        ],
+        '400' => [
+            'DM'  => '01', // Duplicata Mercantil
+            'NP'  => '02', // Nota Promissória
+            'NS'  => '03', // Nota de Seguro
+            'RC'  => '05', // Recibo
+            'DP'  => '06', // Duplicata Rural
+            'LC'  => '08', // Letra de Câmbio
+            'W'   => '09', // Warrant
+            'CH'  => '10', // Cheque
+            'ND'  => '11', // Nota de Débito
+            'NS'  => '12', // Duplicata de Serviço
+            'ND'  => '13', // Nota de Débito
+            'TM'  => '14', // Triplicata Mercantil
+            'TS'  => '15', // Triplicata de Serviço
+            'FAT' => '18', // Fatura
+            'AP'  => '20', // Apólice de Seguro
+            'ME'  => '21', // Mensalidade Escolar
+            'PC'  => '22', /// Parcela de Consórcio
+            'O'   => '99', // Outros
+        ]
     ];
     /**
      * Define o número do convênio (4, 6 ou 7 caracteres)
@@ -163,5 +182,5 @@ class Bancoob extends AbstractBoleto implements BoletoContract
     public function getAgenciaCodigoBeneficiario(){
         return $this->getAgencia() . ' / ' . $this->getConvenio();
     }
-    
+
 }

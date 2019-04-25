@@ -38,17 +38,33 @@ class Sicredi extends AbstractBoleto implements BoletoContract
      * @var string
      */
     protected $especiesCodigo = [
-        'DMI' => 'A', // Duplicata Mercantil por Indicação
-        'DM' => 'A', // Duplicata Mercantil por Indicação
-        'DR' => 'B', // Duplicata Rural
-        'NP' => 'C', // Nota Promissória
-        'NR' => 'D', // Nota Promissória Rural
-        'NS' => 'E', // Nota de Seguros
-        'RC' => 'G', // Recibo
-        'LC' => 'H', // Letra de Câmbio
-        'ND' => 'I', // Nota de Débito
-        'DSI' => 'J', // Duplicata de Serviço por Indicação
-        'OS' => 'K', // Outros
+        '240' => [
+            'DMI' => 'A', // Duplicata Mercantil por Indicação
+            'DM'  => 'A', // Duplicata Mercantil por Indicação
+            'DR'  => 'B', // Duplicata Rural
+            'NP'  => 'C', // Nota Promissória
+            'NR'  => 'D', // Nota Promissória Rural
+            'NS'  => 'E', // Nota de Seguros
+            'RC'  => 'G', // Recibo
+            'LC'  => 'H', // Letra de Câmbio
+            'ND'  => 'I', // Nota de Débito
+            'DSI' => 'J', // Duplicata de Serviço por Indicação
+            'OS'  => 'K', // Outros
+        ],
+        '400' => [
+            'DMI' => 'A', // Duplicata Mercantil por Indicação
+            'DM'  => 'A', // Duplicata Mercantil por Indicação
+            'DR'  => 'B', // Duplicata Rural
+            'NP'  => 'C', // Nota Promissória
+            'NR'  => 'D', // Nota Promissória Rural
+            'NS'  => 'E', // Nota de Seguros
+            'RC'  => 'G', // Recibo
+            'LC'  => 'H', // Letra de Câmbio
+            'ND'  => 'I', // Nota de Débito
+            'DSI' => 'J', // Duplicata de Serviço por Indicação
+            'OS'  => 'K', // Outros
+            'BP'  => 'O', // Boleto Proposta
+        ]
     ];
     /**
      * Se possui registro o boleto (tipo = 1 com registro e 3 sem registro)

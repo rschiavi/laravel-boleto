@@ -217,6 +217,11 @@ interface Boleto
     /**
      * @return mixed
      */
+    public function getLayoutCnab();
+
+    /**
+     * @return mixed
+     */
     public function getEspecieDoc();
 
     /**
@@ -285,8 +290,7 @@ interface Boleto
      *
      * @return array
      */
-    static public function parseCampoLivre($campoLivre);
-
+    public static function parseCampoLivre($campoLivre);
 
     /**
      * @return mixed

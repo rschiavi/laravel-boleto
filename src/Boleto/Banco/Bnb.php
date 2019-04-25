@@ -8,6 +8,12 @@ use Eduardokum\LaravelBoleto\Util;
 
 class Bnb extends AbstractBoleto implements BoletoContract
 {
+    public function __construct(array $params = [])
+    {
+        parent::__construct($params);
+        $this->setLayoutCnab('400');
+    }
+
     /**
      * Local de pagamento
      *
@@ -41,11 +47,20 @@ class Bnb extends AbstractBoleto implements BoletoContract
      * @var string
      */
     protected $especiesCodigo = [
-        'DM' => '01',
-        'NP' => '02',
-        'CH' => '03',
-        'CN' => '04',
-        'RC' => '05'
+        '240' => [
+
+        ],
+        '400' => [
+            'DM'  => '01', // Duplicata
+            'NP'  => '02', // Nota promissoria
+            'CH'  => '03', // Cheque
+            'CN'  => '04', // Carnê
+            'RC'  => '05', // Recibo
+            'ARE' => '16', // Apólice ramos elementares
+            'AE'  => '17', // Apólice BANCO DO NORDESTE empresarial
+            'AR'  => '18', // Apólice BANCO DO NORDESTE residencial
+            'O'   => '19', // Outros
+        ]
     ];
     /**
      * Seta dias para baixa automática

@@ -42,19 +42,40 @@ class Itau extends AbstractBoleto implements BoletoContract
      * @var string
      */
     protected $especiesCodigo = [
-        'DM' => '01',
-        'NP' => '02',
-        'NS' => '03',
-        'ME' => '04',
-        'REC' => '05',
-        'CT' => '06',
-        'CS' => '07',
-        'DS' => '08',
-        'LC' => '09',
-        'ND' => '13',
-        'CDA' => '15',
-        'EC' => '16',
-        'CPS' => '17',
+        '240' => [
+            'DM'  => '01', // DUPLICATA MERCANTIL
+            'NP'  => '02', // NOTA PROMISSÓRIA
+            'NS'  => '03', // NOTA DE SEGURO
+            'ME'  => '04', // MENSALIDADE ESCOLAR
+            'REC' => '05', // RECIBO
+            'CT'  => '06', // CONTRATO
+            'CS'  => '07', // COSSEGUROS
+            'DS'  => '08', // DUPLICATA DE SERVIÇO
+            'LC'  => '09', // LETRA DE CÂMBIO
+            'ND'  => '13', // NOTA DE DÉBITOS
+            'CDA' => '15', // DOCUMENTO DE DÍVIDA
+            'EC'  => '16', // ENCARGOS CONDOMINIAIS
+            'CPS' => '17', // CONTA DE PRESTAÇÃO DE SERVIÇOS
+            'BP'  => '18', // BOLETO DE PROPOSTA
+            'DV'  => '99', // DIVERSOS
+        ],
+        '400' => [
+            'DM'  => '01', // DUPLICATA MERCANTIL
+            'NP'  => '02', // NOTA PROMISSÓRIA
+            'NS'  => '03', // NOTA DE SEGURO
+            'ME'  => '04', // MENSALIDADE ESCOLAR
+            'REC' => '05', // RECIBO
+            'CT'  => '06', // CONTRATO
+            'CS'  => '07', // COSSEGUROS
+            'DS'  => '08', // DUPLICATA DE SERVIÇO
+            'LC'  => '09', // LETRA DE CÂMBIO
+            'ND'  => '13', // NOTA DE DÉBITOS
+            'CDA' => '15', // DOCUMENTO DE DÍVIDA
+            'EC'  => '16', // ENCARGOS CONDOMINIAIS
+            'CPS' => '17', // CONTA DE PRESTAÇÃO DE SERVIÇOS
+            'BP'  => '18', // BOLETO DE PROPOSTA
+            'DV'  => '99', // DIVERSOS
+        ]
     ];
     /**
      * Seta dias para baixa automática
