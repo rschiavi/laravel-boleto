@@ -59,8 +59,8 @@ class Caixa  extends AbstractBoleto implements BoletoContract
             'DD'  => '24', // Documento de Dívida
             'CPR' => '25', // Cédula de Produto Rural,
             'CC'  => '31', // CC Cartão de Crédito,
-            'BDP' => '32', // BDP - Boleto de Proposta
-            'O'   => '99', // Outros
+            'BP'  => '32', // BDP - Boleto de Proposta
+            'OU'  => '99', // Outros
         ],
         '400' => [
             'DM'  => '01', // Duplicata Mercantil
