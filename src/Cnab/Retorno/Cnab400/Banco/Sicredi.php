@@ -218,7 +218,7 @@ class Sicredi extends AbstractRetorno implements RetornoCnab400
     protected function processarDetalhe(array $detalhe)
     {
         $d = $this->detalheAtual();
-		
+
         $d->setNossoNumero($this->rem(48, 62, $detalhe))
             ->setNumeroControle($this->rem(117, 126, $detalhe))
             ->setNumeroDocumento($this->rem(117, 126, $detalhe))
@@ -236,7 +236,7 @@ class Sicredi extends AbstractRetorno implements RetornoCnab400
             ->setDataCredito($this->rem(329, 336, $detalhe), 'Ymd');
 
         if ($d->hasOcorrencia('06', '15', '16')) {
-			$this->totais['valor_recebido'] += $d->getValorRecebido();
+            $this->totais['valor_recebido'] += $d->getValorRecebido();
             $this->totais['liquidados']++;
             $d->setOcorrenciaTipo($d::OCORRENCIA_LIQUIDADA);
         } elseif ($d->hasOcorrencia('02')) {

@@ -24,9 +24,9 @@ class Itau extends AbstractRetorno implements RetornoCnab400
         '02' => 'Entrada confirmada',
         '03' => 'Entrada rejeitada',
         '04' => 'Alteração de dados - nova entrada',
-        '05' => 'Alteração de dados – baixa',
+        '05' => 'Alteração de dados - baixa',
         '06' => 'Liquidação normal',
-        '07' => 'Liquidação parcial – cobrança inteligente (b2b)',
+        '07' => 'Liquidação parcial - cobrança inteligente (b2b)',
         '08' => 'Liquidação em cartório',
         '09' => 'Baixa simples',
         '10' => 'Baixa por ter sido liquidado',
@@ -58,12 +58,12 @@ class Itau extends AbstractRetorno implements RetornoCnab400
         '38' => 'Tarifa de instrução',
         '39' => 'Tarifa de ocorrências',
         '40' => 'Tarifa mensal de emissão de boleto/tarifa mensal de envio de duplicata',
-        '41' => 'Débito mensal de tarifas – extrato de posição (b4ep/b4ox)',
-        '42' => 'Débito mensal de tarifas – outras instruções',
-        '43' => 'Débito mensal de tarifas – manutenção de títulos vencidos',
-        '44' => 'Débito mensal de tarifas – outras ocorrências',
-        '45' => 'Débito mensal de tarifas – protesto',
-        '46' => 'Débito mensal de tarifas – sustação de protesto',
+        '41' => 'Débito mensal de tarifas - extrato de posição (b4ep/b4ox)',
+        '42' => 'Débito mensal de tarifas - outras instruções',
+        '43' => 'Débito mensal de tarifas - manutenção de títulos vencidos',
+        '44' => 'Débito mensal de tarifas - outras ocorrências',
+        '45' => 'Débito mensal de tarifas - protesto',
+        '46' => 'Débito mensal de tarifas - sustação de protesto',
         '47' => 'Baixa com transferência para desconto',
         '48' => 'Custas de sustação judicial',
         '51' => 'Tarifa mensal ref a entradas bancos correspondentes na carteira',
@@ -79,20 +79,20 @@ class Itau extends AbstractRetorno implements RetornoCnab400
         '62' => 'Débito mensal de tarifa - aviso de movimentação de títulos (2154)',
         '63' => 'Título sustado judicialmente',
         '64' => 'Entrada confirmada com rateio de crédito',
-        '65' => 'Pagamento com cheque – aguardando compensação',
+        '65' => 'Pagamento com cheque - aguardando compensação',
         '69' => 'Cheque devolvido',
         '71' => 'Entrada registrada, aguardando avaliação',
         '72' => 'Baixa por crédito em c/c através do sispag sem título correspondente',
-        '73' => 'Confirmação de entrada na cobrança simples – entrada não aceita na cobrança contratual',
+        '73' => 'Confirmação de entrada na cobrança simples - entrada não aceita na cobrança contratual',
         '74' => 'Instrução de negativação expressa rejeitada',
         '75' => 'Confirmação de recebimento de instrução de entrada em negativação expressa',
         '76' => 'Cheque compensado',
         '77' => 'Confirmação de recebimento de instrução de exclusão de entrada em negativação expressa',
         '78' => 'Confirmação de recebimento de instrução de cancelamento de negativação expressa',
         '79' => 'Negativação expressa informacional',
-        '80' => 'Confirmação de entrada em negativação expressa – tarifa',
-        '82' => 'Confirmação do cancelamento de negativação expressa – tarifa',
-        '83' => 'Confirmação de exclusão de entrada em negativação expressa por liquidação – tarifa',
+        '80' => 'Confirmação de entrada em negativação expressa - tarifa',
+        '82' => 'Confirmação do cancelamento de negativação expressa - tarifa',
+        '83' => 'Confirmação de exclusão de entrada em negativação expressa por liquidação - tarifa',
         '85' => 'Tarifa por boleto (até 03 envios) cobrança ativa eletrônica',
         '86' => 'Tarifa email cobrança ativa eletrônica',
         '87' => 'Tarifa SMS cobrança ativa eletrônica',
@@ -173,12 +173,13 @@ class Itau extends AbstractRetorno implements RetornoCnab400
     protected function init()
     {
         $this->totais = [
-            'liquidados'  => 0,
-            'entradas'    => 0,
-            'baixados'    => 0,
+            'valor_recebido' => 0,
+            'liquidados' => 0,
+            'entradas' => 0,
+            'baixados' => 0,
             'protestados' => 0,
-            'erros'       => 0,
-            'alterados'   => 0,
+            'erros' => 0,
+            'alterados' => 0,
         ];
     }
 
@@ -232,13 +233,14 @@ class Itau extends AbstractRetorno implements RetornoCnab400
             ->setValorMulta(Util::nFloat($this->rem(280, 292, $detalhe) / 100, 2, false));
 
         $msgAdicional = str_split(sprintf('%08s', $this->rem(378, 385, $detalhe)), 2) + array_fill(0, 4, '');
-        if ($d->hasOcorrencia('06', '07', '08', '10', '59')) {
+        if ($d->hasOcorrencia('06', '07', '08', '10', '59', '72')) {
+            $this->totais['valor_recebido'] += $d->getValorRecebido();
             $this->totais['liquidados']++;
             $d->setOcorrenciaTipo($d::OCORRENCIA_LIQUIDADA);
         } elseif ($d->hasOcorrencia('02', '64', '71', '73')) {
             $this->totais['entradas']++;
             $d->setOcorrenciaTipo($d::OCORRENCIA_ENTRADA);
-        } elseif ($d->hasOcorrencia('05', '09', '47', '72')) {
+        } elseif ($d->hasOcorrencia('05', '09', '47')) {
             $this->totais['baixados']++;
             $d->setOcorrenciaTipo($d::OCORRENCIA_BAIXADA);
         } elseif ($d->hasOcorrencia('32')) {
@@ -247,7 +249,7 @@ class Itau extends AbstractRetorno implements RetornoCnab400
         } elseif ($d->hasOcorrencia('14')) {
             $this->totais['alterados']++;
             $d->setOcorrenciaTipo($d::OCORRENCIA_ALTERACAO);
-        } elseif ($d->hasOcorrencia('03', '15', '16', '17', '18', '60')) {
+        } elseif ($d->hasOcorrencia('03', '15', '16', '17', '18', '24', '60', '74')) {
             $this->totais['erros']++;
             $error = Util::appendStrings(
                 array_get($this->rejeicoes, $msgAdicional[0], ''),

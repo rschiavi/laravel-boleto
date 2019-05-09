@@ -130,6 +130,7 @@ class Caixa extends AbstractRetorno implements RetornoCnab400
     protected function processarDetalhe(array $detalhe)
     {
         $d = $this->detalheAtual();
+
         $d->setCarteira($this->rem(107, 108, $detalhe))
             ->setNossoNumero($this->rem(57, 73, $detalhe))
             ->setNumeroDocumento($this->rem(117, 126, $detalhe))
