@@ -178,8 +178,8 @@ class Itau extends AbstractRetorno implements RetornoCnab400
             'entradas' => 0,
             'baixados' => 0,
             'protestados' => 0,
-            'erros' => 0,
             'alterados' => 0,
+            'erros' => 0,
         ];
     }
 
@@ -274,13 +274,14 @@ class Itau extends AbstractRetorno implements RetornoCnab400
     protected function processarTrailer(array $trailer)
     {
         $this->getTrailer()
-            ->setQuantidadeTitulos((int) $this->rem(18, 25, $trailer) + (int) $this->rem(58, 65, $trailer) + (int) $this->rem(178, 185, $trailer))
             ->setValorTitulos((float) Util::nFloat($this->rem(221, 234, $trailer) / 100, 2, false))
-            ->setQuantidadeErros((int) $this->totais['erros'])
+            ->setQuantidadeTitulos((int) $this->rem(18, 25, $trailer) + (int) $this->rem(58, 65, $trailer) + (int) $this->rem(178, 185, $trailer))
             ->setQuantidadeEntradas((int) $this->totais['entradas'])
             ->setQuantidadeLiquidados((int) $this->totais['liquidados'])
             ->setQuantidadeBaixados((int) $this->totais['baixados'])
-            ->setQuantidadeAlterados((int) $this->totais['alterados']);
+            ->setQuantidadeProtestados((int) $this->totais['protestados'])
+            ->setQuantidadeAlterados((int) $this->totais['alterados'])
+            ->setQuantidadeErros((int) $this->totais['erros']);
 
         return true;
     }

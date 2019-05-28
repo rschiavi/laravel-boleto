@@ -64,12 +64,13 @@ class Bnb extends AbstractRetorno implements RetornoCnab400
     protected function init()
     {
         $this->totais = [
+            'valor_recebido' => 0,
             'liquidados' => 0,
             'entradas' => 0,
             'baixados' => 0,
             'protestados' => 0,
-            'erros' => 0,
             'alterados' => 0,
+            'erros' => 0,
         ];
     }
 
@@ -88,10 +89,16 @@ class Bnb extends AbstractRetorno implements RetornoCnab400
         return true;
     }
 
+    /**
+     * @param array $detalhe
+     *
+     * @return bool
+     * @throws \Exception
+     */
     protected function processarDetalhe(array $detalhe)
     {
         $d = $this->detalheAtual();
-        // Verifica data de crédotp (não vem no retorno mas uso pra saber se foi liquidado)
+        // Verifica data de crédito (não vem no retorno mas uso pra saber se foi liquidado)
         if ($this->rem(254, 266, $detalhe) == '0000000000000') {
             $dataCredito = "";
         } else {
@@ -116,6 +123,7 @@ class Bnb extends AbstractRetorno implements RetornoCnab400
             ->setValorMulta(Util::nFloat(0.00, 2, false));
 
         if ($d->hasOcorrencia('06', '07', '08')) {
+            $this->totais['valor_recebido'] += $d->getValorRecebido();
             $this->totais['liquidados']++;
             $d->setOcorrenciaTipo($d::OCORRENCIA_LIQUIDADA);
         } elseif ($d->hasOcorrencia('02')) {
@@ -143,13 +151,14 @@ class Bnb extends AbstractRetorno implements RetornoCnab400
     protected function processarTrailer(array $trailer)
     {
         $this->getTrailer()
+            ->setValorTitulos((float) Util::nFloat($this->rem(26, 39, $trailer) / 100, 2, false))
             ->setQuantidadeTitulos((int) $this->rem(18, 25, $trailer))
-            ->setValorTitulos((float) Util::nFloat($this->rem(26, 39, $trailer)/100, 2, false))
-            ->setQuantidadeErros((int) $this->totais['erros'])
             ->setQuantidadeEntradas((int) $this->totais['entradas'])
             ->setQuantidadeLiquidados((int) $this->totais['liquidados'])
             ->setQuantidadeBaixados((int) $this->totais['baixados'])
-            ->setQuantidadeAlterados((int) $this->totais['alterados']);
+            ->setQuantidadeProtestados((int) $this->totais['protestados'])
+            ->setQuantidadeAlterados((int) $this->totais['alterados'])
+            ->setQuantidadeErros((int) $this->totais['erros']);
 
         return true;
     }

@@ -7,34 +7,47 @@ use Eduardokum\LaravelBoleto\MagicTrait;
 class Trailer implements TrailerContract
 {
     use MagicTrait;
+
     /**
      * @var float
      */
-    protected $valorTitulos;
+    protected $valorTitulos = 0.0;
+
     /**
      * @var int
      */
     protected $avisos = 0;
+
     /**
      * @var int
      */
-    protected $quantidadeTitulos;
+    protected $quantidadeTitulos = 0;
+
     /**
      * @var int
      */
     protected $quantidadeLiquidados = 0;
+
     /**
      * @var int
      */
     protected $quantidadeBaixados = 0;
+
     /**
      * @var int
      */
     protected $quantidadeEntradas = 0;
+
+    /**
+     * @var int
+     */
+    protected $quantidadeProtestados = 0;
+
     /**
      * @var int
      */
     protected $quantidadeAlterados = 0;
+
     /**
      * @var int
      */
@@ -156,6 +169,26 @@ class Trailer implements TrailerContract
     public function setQuantidadeEntradas($quantidadeEntradas)
     {
         $this->quantidadeEntradas = $quantidadeEntradas;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getQuantidadeProtestados()
+    {
+        return $this->quantidadeProtestados;
+    }
+
+    /**
+     * @param int $quantidadeProtestados
+     *
+     * @return Trailer
+     */
+    public function setQuantidadeProtestados($quantidadeProtestados)
+    {
+        $this->quantidadeProtestados = $quantidadeProtestados;
 
         return $this;
     }

@@ -74,11 +74,13 @@ class Bancoob extends AbstractRetorno implements RetornoCnab400
     protected function init()
     {
         $this->totais = [
+            'valor_recebido' => 0,
             'liquidados' => 0,
             'entradas' => 0,
             'baixados' => 0,
             'protestados' => 0,
             'alterados' => 0,
+            'erros' => 0,
         ];
     }
 
@@ -135,6 +137,7 @@ class Bancoob extends AbstractRetorno implements RetornoCnab400
 
         $msgAdicional = str_split(sprintf('%08s', $this->rem(319, 328, $detalhe)), 2) + array_fill(0, 5, '');
         if ($d->hasOcorrencia('05', '06')) {
+            $this->totais['valor_recebido'] += $d->getValorRecebido();
             $this->totais['liquidados']++;
             $d->setOcorrenciaTipo($d::OCORRENCIA_LIQUIDADA);
         } elseif ($d->hasOcorrencia('02')) {
@@ -176,10 +179,13 @@ class Bancoob extends AbstractRetorno implements RetornoCnab400
     {
         $this->getTrailer()
             ->setQuantidadeTitulos((int) $this->rem(164, 171, $trailer))
+            ->setValorTitulos((float) Util::nFloat($this->totais['valor_recebido'], 2, false))
             ->setQuantidadeEntradas((int) $this->totais['entradas'])
             ->setQuantidadeLiquidados((int) $this->totais['liquidados'])
             ->setQuantidadeBaixados((int) $this->totais['baixados'])
-            ->setQuantidadeAlterados((int) $this->totais['alterados']);
+            ->setQuantidadeProtestados((int) $this->totais['protestados'])
+            ->setQuantidadeAlterados((int) $this->totais['alterados'])
+            ->setQuantidadeErros((int) $this->totais['erros']);
 
         return true;
     }
