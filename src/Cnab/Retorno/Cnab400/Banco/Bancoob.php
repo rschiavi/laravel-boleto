@@ -66,7 +66,7 @@ class Bancoob extends AbstractRetorno implements RetornoCnab400
         '73' => 'Débito não agendado – Data de vencimento inválida',
         '74' => 'Débito não agendado – Conforme seu pedido, Título não registrado',
         '75' => 'Débito não agendado – Tipo de número de inscrição do debitado inválido',
-];
+    ];
 
     /**
      * Roda antes dos metodos de processar
@@ -126,14 +126,15 @@ class Bancoob extends AbstractRetorno implements RetornoCnab400
             ->setDataOcorrencia($this->rem(111, 116, $detalhe))
             ->setDataVencimento($this->rem(147, 152, $detalhe))
             ->setDataCredito($this->rem(176, 181, $detalhe))
-            ->setValor(Util::nFloat($this->rem(153, 165, $detalhe)/100, 2, false))
-            ->setValorTarifa(Util::nFloat($this->rem(182, 188, $detalhe)/100, 2, false))
-            ->setValorIOF(Util::nFloat($this->rem(215, 227, $detalhe)/100, 2, false))
-            ->setValorAbatimento(Util::nFloat($this->rem(228, 240, $detalhe)/100, 2, false))
-            ->setValorDesconto(Util::nFloat($this->rem(241, 253, $detalhe)/100, 2, false))
-            ->setValorRecebido(Util::nFloat($this->rem(254, 266, $detalhe)/100, 2, false))
-            ->setValorMora(Util::nFloat($this->rem(267, 279, $detalhe)/100, 2, false))
-            ->setValorMulta(Util::nFloat($this->rem(280, 292, $detalhe)/100, 2, false));
+            ->setValor(Util::nFloat($this->rem(153, 165, $detalhe) / 100, 2, false))
+            ->setValorTarifa(Util::nFloat($this->rem(182, 188, $detalhe) / 100, 2, false))
+            ->setValorIOF(Util::nFloat($this->rem(215, 227, $detalhe) / 100, 2, false))
+            ->setValorAbatimento(Util::nFloat($this->rem(228, 240, $detalhe) / 100, 2, false))
+            ->setValorDesconto(Util::nFloat($this->rem(241, 253, $detalhe) / 100, 2, false))
+            ->setValorRecebido(Util::nFloat($this->rem(254, 266, $detalhe) / 100, 2, false))
+            ->setValorMora(Util::nFloat($this->rem(267, 279, $detalhe) / 100, 2, false))
+            ->setValorMulta(Util::nFloat($this->rem(280, 292, $detalhe) / 100, 2, false))
+            ->setLinhaRegistro($this->rem(395, 400, $detalhe));
 
         $msgAdicional = str_split(sprintf('%08s', $this->rem(319, 328, $detalhe)), 2) + array_fill(0, 5, '');
         if ($d->hasOcorrencia('05', '06')) {
@@ -152,7 +153,7 @@ class Bancoob extends AbstractRetorno implements RetornoCnab400
         } elseif ($d->hasOcorrencia('14')) {
             $this->totais['alterados']++;
             $d->setOcorrenciaTipo($d::OCORRENCIA_ALTERACAO);
-        }  elseif ($d->hasOcorrencia('03', '24', '27', '30', '32')) {
+        } elseif ($d->hasOcorrencia('03', '24', '27', '30', '32')) {
             $this->totais['erros']++;
             $error = Util::appendStrings(
                 array_get($this->rejeicoes, $msgAdicional[0], ''),

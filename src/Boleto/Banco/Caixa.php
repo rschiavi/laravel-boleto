@@ -166,7 +166,8 @@ class Caixa  extends AbstractBoleto implements BoletoContract
      * Na CEF deve retornar agência (sem o DV) / código beneficiário (com DV)
      * @return [type] [description]
      */
-    public function getAgenciaCodigoBeneficiario(){
+    public function getAgenciaCodigoBeneficiario()
+    {
         return $this->getAgencia() . ' / ' .
                $this->getCodigoCliente() . '-' .
                Util::modulo11($this->getCodigoCliente());

@@ -245,7 +245,8 @@ class Sicredi extends AbstractRetorno implements RetornoCnab400
             ->setValorRecebido(Util::nFloat($this->rem(254, 266, $detalhe), 2, false) / 100)
             ->setValorMora(Util::nFloat($this->rem(267, 279, $detalhe), 2, false) / 100)
             ->setValorMulta(Util::nFloat($this->rem(280, 292, $detalhe), 2, false) / 100)
-            ->setDataCredito($this->rem(329, 336, $detalhe), 'Ymd');
+            ->setDataCredito($this->rem(329, 336, $detalhe), 'Ymd')
+            ->setLinhaRegistro($this->rem(395, 400, $detalhe));
 
         if ($d->hasOcorrencia('06', '15', '16')) {
             $this->totais['valor_recebido'] += $d->getValorRecebido();
