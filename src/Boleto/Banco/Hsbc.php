@@ -11,6 +11,7 @@ class Hsbc  extends AbstractBoleto implements BoletoContract
     {
         parent::__construct($params);
         $this->addCampoObrigatorio('range', 'contaDv');
+        $this->setLayoutCnab('400');
     }
 
     /**
@@ -31,13 +32,19 @@ class Hsbc  extends AbstractBoleto implements BoletoContract
      * @var string
      */
     protected $especiesCodigo = [
-        'DM' => '01',
-        'NP' => '02',
-        'NS' => '03',
-        'REC' => '05',
-        'CE' => '09',
-        'DS' => '10',
-        'PD' => '98',
+        '240' => [
+
+        ],
+        '400' => [
+            'DM' => '01', // Duplicata Mercantil
+            'NP' => '02', //  Nota Promissoria
+            'NS' => '03', // Nota de Seguro
+            'RC' => '05', // Recibo
+            'SD' => '08', // Cobrança Expressa
+            'CE' => '09', // Cobrança Escritural
+            'DS' => '10', // Duplicata de Serviços
+            'PD' => '98', // Cobrança Diretiva
+        ]
     ];
     /**
      * Código de range de composição do nosso numero.

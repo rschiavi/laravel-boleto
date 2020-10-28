@@ -109,7 +109,7 @@ class Santander extends AbstractRemessa implements RemessaContract
     public function getCodigoTransmissao()
     {
         $conta = $this->getConta();
-        if (strlen($conta) == 9) {
+        if (strlen($conta) >= 8) {
             $conta = substr($conta, 0, 7);
         }
 
@@ -159,6 +159,7 @@ class Santander extends AbstractRemessa implements RemessaContract
      */
     public function addBoleto(BoletoContract $boleto)
     {
+        $boleto->setLayoutCnab('400');
         $this->boletos[] = $boleto;
         $this->iniciaDetalhe();
 

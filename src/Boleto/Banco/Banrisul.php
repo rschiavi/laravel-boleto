@@ -54,14 +54,19 @@ class Banrisul extends AbstractBoleto implements BoletoContract
      * @var string
      */
     protected $especiesCodigo = [
-        'DM'  => '02', //Duplicata Mercantil – Banco emite bloqueto franqueado. Se a posição 61 for igual a 2 o Banco transformará “espécie do título” para AA
-        'DS'  => '04', //Duplicata de Serviço
-        'LC'  => '07', //Letra de Câmbio
-        'NP'  => '12', //Nota Promissória
-        'CCB' => 'AA', //O Banco não emite o bloqueto
-        'CD'  => 'AB', //Cobrança Direta
-        'CE'  => 'AC', //Cobrança Escritural
-        'TT'  => 'AD', //Título de terceiros
+        '240' => [
+            'DM'  => '02', // Duplicata Mercantil – Banco emite bloqueto franqueado. Se a posição 61 for igual a 2 o Banco transformará “espécie do título” para AA
+            'DS'  => '04', // Duplicata de Serviço
+            'LC'  => '07', // Letra de Câmbio
+            'NP'  => '12', // Nota Promissória
+            'CCB' => 'AA', // O Banco não emite o bloqueto
+            'CD'  => 'AB', // Cobrança Direta
+            'CE'  => 'AC', // Cobrança Escritural
+            'TT'  => 'AD', // Título de terceiros
+        ],
+        '400' => [
+            'DM'  => '01', // Duplicata Mercantil
+        ]
     ];
 
     /**
