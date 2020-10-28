@@ -196,11 +196,17 @@ class Sicredi extends AbstractRetorno implements RetornoCnab400
             'entradas' => 0,
             'baixados' => 0,
             'protestados' => 0,
-            'erros' => 0,
             'alterados' => 0,
+            'erros' => 0,
         ];
     }
 
+    /**
+     * @param array $header
+     *
+     * @return bool
+     * @throws \Exception
+     */
     protected function processarHeader(array $header)
     {
         $this->getHeader()
@@ -215,10 +221,16 @@ class Sicredi extends AbstractRetorno implements RetornoCnab400
         return true;
     }
 
+    /**
+     * @param array $detalhe
+     *
+     * @return bool
+     * @throws \Exception
+     */
     protected function processarDetalhe(array $detalhe)
     {
         $d = $this->detalheAtual();
-		
+
         $d->setNossoNumero($this->rem(48, 62, $detalhe))
             ->setNumeroControle($this->rem(117, 126, $detalhe))
             ->setNumeroDocumento($this->rem(117, 126, $detalhe))
@@ -233,10 +245,11 @@ class Sicredi extends AbstractRetorno implements RetornoCnab400
             ->setValorRecebido(Util::nFloat($this->rem(254, 266, $detalhe), 2, false) / 100)
             ->setValorMora(Util::nFloat($this->rem(267, 279, $detalhe), 2, false) / 100)
             ->setValorMulta(Util::nFloat($this->rem(280, 292, $detalhe), 2, false) / 100)
-            ->setDataCredito($this->rem(329, 336, $detalhe), 'Ymd');
+            ->setDataCredito($this->rem(329, 336, $detalhe), 'Ymd')
+            ->setLinhaRegistro($this->rem(395, 400, $detalhe));
 
         if ($d->hasOcorrencia('06', '15', '16')) {
-			$this->totais['valor_recebido'] += $d->getValorRecebido();
+            $this->totais['valor_recebido'] += $d->getValorRecebido();
             $this->totais['liquidados']++;
             $d->setOcorrenciaTipo($d::OCORRENCIA_LIQUIDADA);
         } elseif ($d->hasOcorrencia('02')) {
@@ -280,13 +293,14 @@ class Sicredi extends AbstractRetorno implements RetornoCnab400
     protected function processarTrailer(array $trailer)
     {
         $this->getTrailer()
-            ->setQuantidadeTitulos((int) $this->count())
             ->setValorTitulos((float) Util::nFloat($this->totais['valor_recebido'], 2, false))
-            ->setQuantidadeErros((int) $this->totais['erros'])
+            ->setQuantidadeTitulos((int) $this->count())
             ->setQuantidadeEntradas((int) $this->totais['entradas'])
             ->setQuantidadeLiquidados((int) $this->totais['liquidados'])
             ->setQuantidadeBaixados((int) $this->totais['baixados'])
-            ->setQuantidadeAlterados((int) $this->totais['alterados']);
+            ->setQuantidadeProtestados((int) $this->totais['protestados'])
+            ->setQuantidadeAlterados((int) $this->totais['alterados'])
+            ->setQuantidadeErros((int) $this->totais['erros']);
 
         return true;
     }

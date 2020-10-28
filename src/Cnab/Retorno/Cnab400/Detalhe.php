@@ -18,70 +18,92 @@ class Detalhe implements DetalheContract
      * @var string
      */
     protected $nossoNumero;
+
     /**
      * @var string
      */
     protected $numeroDocumento;
+
     /**
      * @var string
      */
     protected $numeroControle;
+
     /**
      * @var string
      */
     protected $ocorrencia;
+
     /**
      * @var string
      */
     protected $ocorrenciaTipo;
+
     /**
      * @var string
      */
     protected $ocorrenciaDescricao;
+
     /**
      * @var Carbon
      */
     protected $dataOcorrencia;
+
     /**
      * @var Carbon
      */
     protected $dataVencimento;
+
     /**
      * @var Carbon
      */
     protected $dataCredito;
+
     /**
      * @var string
      */
     protected $valor;
+
     /**
      * @var string
      */
     protected $valorTarifa;
+
     /**
      * @var string
      */
     protected $valorIOF;
+
     /**
      * @var string
      */
     protected $valorAbatimento;
+
     /**
      * @var string
      */
     protected $valorDesconto;
+
     /**
      * @var string
      */
     protected $valorRecebido;
+
     /**
      * @var string
      */
     protected $valorMora;
+
     /**
      * @var string
      */
     protected $valorMulta;
+
+    /**
+     * @var string
+     */
+    protected $linhaRegistro;
+
     /**
      * @var string
      */
@@ -482,6 +504,27 @@ class Detalhe implements DetalheContract
     }
 
     /**
+     * @param string $linha
+     *
+     * @return Detalhe
+     */
+    public function setLinhaRegistro($linha)
+    {
+        $this->linhaRegistro = $linha;
+
+        return $this;
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public function getLinhaRegistro()
+    {
+        return $this->linhaRegistro;
+    }
+
+    /**
      * Retorna se tem erro.
      *
      * @return bool
@@ -507,7 +550,7 @@ class Detalhe implements DetalheContract
     public function setError($error)
     {
         $this->ocorrenciaTipo = self::OCORRENCIA_ERRO;
-        $this->error          = $error;
+        $this->error = $error;
 
         return $this;
     }

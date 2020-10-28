@@ -22,6 +22,7 @@ class Itau extends AbstractRemessa implements RemessaContract
     const ESPECIE_DOCUMENTO_DIVIDA = '15';
     const ESPECIE_ENCARGOS_CONDOMINIAIS = '16';
     const ESPECIE_NOTA_SERVICOS = '17';
+    const ESPECIE_BOLETO_PROPOSTA = '18';
     const ESPECIE_DIVERSOS = '99';
 
     const OCORRENCIA_REMESSA = '01';
@@ -42,6 +43,12 @@ class Itau extends AbstractRemessa implements RemessaContract
     const OCORRENCIA_ALT_VENC_SUSTAR_PROTESTO = '37';
     const OCORRENCIA_NAO_CONCORDA_SACADO = '38';
     const OCORRENCIA_DISPENSA_JUROS = '47';
+    const OCORRENCIA_ALT_DADOS_EXTRAS = '49';
+    const OCORRENCIA_ENTRADA_NEGATIV_EXPRESSA = '66';
+    const OCORRENCIA_NAO_NEGATIVAR = '67';
+    const OCORRENCIA_EXCLUIR_NEGATIV_EXPRESSA = '68';
+    const OCORRENCIA_CANCELAR_NEGATIV_EXPRESSA = '69';
+    const OCORRENCIA_DESC_TITULOS_ENCAMIN_DIA = '93';
 
     const INSTRUCAO_SEM = '00';
     const INSTRUCAO_DEVOL_VENC_5 = '02';
@@ -94,6 +101,8 @@ class Itau extends AbstractRemessa implements RemessaContract
     const INSTRUCAO_PAGTO_BANCO = '59';
     const INSTRUCAO_ENTREGUE_PENHOR = '61';
     const INSTRUCAO_TRANSFERIDO = '62';
+    const INSTRUCAO_ENTRADA_NEGATIV_EXPRESSA = '66';
+    const INSTRUCAO_NAO_NEGATIVAR = '67';
     const INSTRUCAO_VALOR_PRORATA_10 = '78';
     const INSTRUCAO_JUROS_VENC_15 = '79';
     const INSTRUCAO_PAGTO_CHEQUE = '80';
@@ -106,6 +115,7 @@ class Itau extends AbstractRemessa implements RemessaContract
     const INSTRUCAO_DEVOL_VENC_XX = '92';
     const INSTRUCAO_MSG_30_POS = '93';
     const INSTRUCAO_MSG_40_POS = '94';
+    const INSTRUCAO_DUPLICATA_FATURA_N = '94';
 
     /**
      * Código do banco
@@ -119,7 +129,7 @@ class Itau extends AbstractRemessa implements RemessaContract
      *
      * @var array
      */
-    protected $carteiras = ['112', '115', '188', '109', '121', '175'];
+    protected $carteiras = ['108', '180', '121', '109', '104', '188', '112', '115'];
 
     /**
      * Caracter de fim de linha

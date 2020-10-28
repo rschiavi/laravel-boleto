@@ -68,7 +68,7 @@ class Caixa extends AbstractRemessa implements RemessaContract
      *
      * @var array
      */
-    protected $carteiras = ['RG'];
+    protected $carteiras = ['RG', '01'];
 
     /**
      * Codigo do cliente junto ao banco.
@@ -303,7 +303,11 @@ class Caixa extends AbstractRemessa implements RemessaContract
         $this->add(164, 166, '101');
         $this->add(167, 171, '00000');
         $this->add(172, 191, '');
-        $this->add(192, 211, Util::formatCnab('X','REMESSA-PRODUCAO', 20));
+        if ($this->homologacao) {
+            $this->add(192, 211, Util::formatCnab('X', 'REMESSA-TESTE', 20));
+        } else {
+            $this->add(192, 211, Util::formatCnab('X', 'REMESSA-PRODUCAO', 20));
+        }
         $this->add(212, 215, '');
         $this->add(216, 240, '');
         return $this;

@@ -22,6 +22,7 @@ class Itau extends AbstractBoleto implements BoletoContract
      * @var string
      */
     protected $codigoBanco = self::COD_BANCO_ITAU;
+
     /**
      * Variáveis adicionais.
      *
@@ -30,12 +31,14 @@ class Itau extends AbstractBoleto implements BoletoContract
     public $variaveis_adicionais = [
         'carteira_nome' => '',
     ];
+
     /**
      * Define as carteiras disponíveis para este banco
      *
      * @var array
      */
-    protected $carteiras = ['112', '115', '188', '109', '121', '180', '110', '111'];
+    protected $carteiras = ['104', '108', '109', '110', '111', '112', '115', '121', '180', '188'];
+
     /**
      * Espécie do documento, coódigo para remessa
      *
@@ -53,7 +56,7 @@ class Itau extends AbstractBoleto implements BoletoContract
             'DS'  => '08', // DUPLICATA DE SERVIÇO
             'LC'  => '09', // LETRA DE CÂMBIO
             'ND'  => '13', // NOTA DE DÉBITOS
-            'CDA' => '15', // DOCUMENTO DE DÍVIDA
+            'DD' => '15', // DOCUMENTO DE DÍVIDA
             'EC'  => '16', // ENCARGOS CONDOMINIAIS
             'CPS' => '17', // CONTA DE PRESTAÇÃO DE SERVIÇOS
             'BP'  => '18', // BOLETO DE PROPOSTA
@@ -70,13 +73,14 @@ class Itau extends AbstractBoleto implements BoletoContract
             'DS'  => '08', // DUPLICATA DE SERVIÇO
             'LC'  => '09', // LETRA DE CÂMBIO
             'ND'  => '13', // NOTA DE DÉBITOS
-            'CDA' => '15', // DOCUMENTO DE DÍVIDA
+            'DD' => '15', // DOCUMENTO DE DÍVIDA
             'EC'  => '16', // ENCARGOS CONDOMINIAIS
             'CPS' => '17', // CONTA DE PRESTAÇÃO DE SERVIÇOS
             'BP'  => '18', // BOLETO DE PROPOSTA
             'DV'  => '99', // DIVERSOS
         ]
     ];
+
     /**
      * Seta dias para baixa automática
      *

@@ -66,7 +66,7 @@ class Bancoob extends AbstractRetorno implements RetornoCnab400
         '73' => 'Débito não agendado – Data de vencimento inválida',
         '74' => 'Débito não agendado – Conforme seu pedido, Título não registrado',
         '75' => 'Débito não agendado – Tipo de número de inscrição do debitado inválido',
-];
+    ];
 
     /**
      * Roda antes dos metodos de processar
@@ -74,11 +74,13 @@ class Bancoob extends AbstractRetorno implements RetornoCnab400
     protected function init()
     {
         $this->totais = [
+            'valor_recebido' => 0,
             'liquidados' => 0,
             'entradas' => 0,
             'baixados' => 0,
             'protestados' => 0,
             'alterados' => 0,
+            'erros' => 0,
         ];
     }
 
@@ -124,17 +126,19 @@ class Bancoob extends AbstractRetorno implements RetornoCnab400
             ->setDataOcorrencia($this->rem(111, 116, $detalhe))
             ->setDataVencimento($this->rem(147, 152, $detalhe))
             ->setDataCredito($this->rem(176, 181, $detalhe))
-            ->setValor(Util::nFloat($this->rem(153, 165, $detalhe)/100, 2, false))
-            ->setValorTarifa(Util::nFloat($this->rem(182, 188, $detalhe)/100, 2, false))
-            ->setValorIOF(Util::nFloat($this->rem(215, 227, $detalhe)/100, 2, false))
-            ->setValorAbatimento(Util::nFloat($this->rem(228, 240, $detalhe)/100, 2, false))
-            ->setValorDesconto(Util::nFloat($this->rem(241, 253, $detalhe)/100, 2, false))
-            ->setValorRecebido(Util::nFloat($this->rem(254, 266, $detalhe)/100, 2, false))
-            ->setValorMora(Util::nFloat($this->rem(267, 279, $detalhe)/100, 2, false))
-            ->setValorMulta(Util::nFloat($this->rem(280, 292, $detalhe)/100, 2, false));
+            ->setValor(Util::nFloat($this->rem(153, 165, $detalhe) / 100, 2, false))
+            ->setValorTarifa(Util::nFloat($this->rem(182, 188, $detalhe) / 100, 2, false))
+            ->setValorIOF(Util::nFloat($this->rem(215, 227, $detalhe) / 100, 2, false))
+            ->setValorAbatimento(Util::nFloat($this->rem(228, 240, $detalhe) / 100, 2, false))
+            ->setValorDesconto(Util::nFloat($this->rem(241, 253, $detalhe) / 100, 2, false))
+            ->setValorRecebido(Util::nFloat($this->rem(254, 266, $detalhe) / 100, 2, false))
+            ->setValorMora(Util::nFloat($this->rem(267, 279, $detalhe) / 100, 2, false))
+            ->setValorMulta(Util::nFloat($this->rem(280, 292, $detalhe) / 100, 2, false))
+            ->setLinhaRegistro($this->rem(395, 400, $detalhe));
 
         $msgAdicional = str_split(sprintf('%08s', $this->rem(319, 328, $detalhe)), 2) + array_fill(0, 5, '');
         if ($d->hasOcorrencia('05', '06')) {
+            $this->totais['valor_recebido'] += $d->getValorRecebido();
             $this->totais['liquidados']++;
             $d->setOcorrenciaTipo($d::OCORRENCIA_LIQUIDADA);
         } elseif ($d->hasOcorrencia('02')) {
@@ -149,7 +153,7 @@ class Bancoob extends AbstractRetorno implements RetornoCnab400
         } elseif ($d->hasOcorrencia('14')) {
             $this->totais['alterados']++;
             $d->setOcorrenciaTipo($d::OCORRENCIA_ALTERACAO);
-        }  elseif ($d->hasOcorrencia('03', '24', '27', '30', '32')) {
+        } elseif ($d->hasOcorrencia('03', '24', '27', '30', '32')) {
             $this->totais['erros']++;
             $error = Util::appendStrings(
                 array_get($this->rejeicoes, $msgAdicional[0], ''),
@@ -176,10 +180,13 @@ class Bancoob extends AbstractRetorno implements RetornoCnab400
     {
         $this->getTrailer()
             ->setQuantidadeTitulos((int) $this->rem(164, 171, $trailer))
+            ->setValorTitulos((float) Util::nFloat($this->totais['valor_recebido'], 2, false))
             ->setQuantidadeEntradas((int) $this->totais['entradas'])
             ->setQuantidadeLiquidados((int) $this->totais['liquidados'])
             ->setQuantidadeBaixados((int) $this->totais['baixados'])
-            ->setQuantidadeAlterados((int) $this->totais['alterados']);
+            ->setQuantidadeProtestados((int) $this->totais['protestados'])
+            ->setQuantidadeAlterados((int) $this->totais['alterados'])
+            ->setQuantidadeErros((int) $this->totais['erros']);
 
         return true;
     }
